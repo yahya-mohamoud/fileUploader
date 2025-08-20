@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <%- include('../partials/navbar.ejs') %>
+     <div class="folder">
+                    <div class="addBtn">
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+
+                    <div class="form">
+                        <div class="closeBtn">
+                            <i class="fa-solid fa-xmark" ></i>
+                        </div>
+                        <form action="/folders/edit/<%= folder.id%>" method="post">
+                            <label for="file">Update a Folder</label>
+                            <input type="text" name="foldername" id="file" placeholder="folder name" value=<%= folder.name %>>
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+
+                <script>
+                    const addBtn = document.querySelector('.addBtn');
+                    const form = document.querySelector('.form');
+                    const closeBtn = document.querySelector('.closeBtn');
+
+                    addBtn.addEventListener('click', () => {
+                        addBtn.style.display = 'none';
+                        form.style.display = 'block';
+                    });
+
+                    closeBtn.addEventListener('click', () => {
+                        form.style.display = 'none';
+                        addBtn.style.display = 'grid';
+                    });
+
+                </script>
+</body>
+</html>

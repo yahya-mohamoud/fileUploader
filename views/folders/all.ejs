@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <style>
+        .form {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .addBtn {
+            font-size: 2rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: red;
+            display: grid;
+            place-content: center;
+        }
+
+        /* Modal inner box */
+        .form form {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: fadeIn 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 200px auto;
+        }
+
+        /* Close button */
+        .closeBtn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+        }
+
+        .closeBtn i {
+            font-size: 3rem;
+            color: #fffdfd;
+        }
+
+        /* Inputs + Button */
+        .form input,
+        .form button {
+            padding: 0.7rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .form button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .form button:hover {
+            background: #45a049;
+        }
+
+        .folder {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .5rem 1rem;
+            background-color: beige;
+            margin: 10px auto;
+            cursor: pointer;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('../partials/navbar.ejs')%>
+
+        <h1>ALL folders</h1>
+        <% folders.forEach((folder)=> { %>
+            <div class="folder" onClick="window.location.href='http://localhost:4000/folders/details/<%= folder.id%>'">
+                <h2><%= folder.name %></h2>
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </div>
+            <% }) %>
+
+                <div class="folder">
+                    <div class="addBtn">
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+
+                    <div class="form">
+                        <div class="closeBtn">
+                            <i class="fa-solid fa-xmark" ></i>
+                        </div>
+                        <form action="/folders/create" method="post">
+                            <label for="file">Create a Folder</label>
+                            <input type="text" name="foldername" id="file" placeholder="folder name">
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+
+                <script>
+                    const addBtn = document.querySelector('.addBtn');
+                    const form = document.querySelector('.form');
+                    const closeBtn = document.querySelector('.closeBtn');
+
+                    addBtn.addEventListener('click', () => {
+                        addBtn.style.display = 'none';
+                        form.style.display = 'block';
+                    });
+
+                    closeBtn.addEventListener('click', () => {
+                        form.style.display = 'none';
+                        addBtn.style.display = 'grid';
+                    });
+
+                </script>
+</body>
+
+</html>

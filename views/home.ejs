@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+      .home-container {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.home-links {
+    margin-top: 20px;
+}
+
+.home-links .btn {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.home-links .btn:hover {
+    background-color: #0056b3;
+}
+
+    </style>
+</head>
+
+<body>
+    <%- include('./partials/navbar.ejs') %>
+
+<div class="home-container">
+    <h1>Home Page</h1>
+    <div class="home-links">
+        <a href="/auth/signup" class="btn">Sign Up</a>
+        <a href="/auth/login" class="btn">Login</a>
+        <a href="/folders" class="btn">All Folders</a>
+    </div>
+</div>
+
+</body>
+
+</html>

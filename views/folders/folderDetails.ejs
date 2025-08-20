@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+  .folder-details {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
+.folder-details h2 {
+    margin-bottom: 1rem;
+}
+
+.folder-actions {
+    margin-bottom: 1.5rem;
+}
+
+.folder-actions a {
+    text-decoration: none;
+    margin-right: 1rem;
+    color: #007bff;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.folder-actions a:hover {
+    color: #0056b3;
+}
+
+.folder-files .file {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #d9d1d1;
+}
+
+.folder-files .file a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.2s;
+}
+
+.folder-files .file a:hover {
+    color: #007bff;
+}
+
+
+</style>
+<body>
+    <%- include('../partials/navbar.ejs')%>
+<div class="folder-details">
+    <h2><%= folder.name %></h2>
+    <div class="folder-actions">
+        <a href="/folders/edit/<%= folder.id %>">Edit</a>
+        <a href="/folders/delete/<%= folder.id %>">Delete</a>
+    </div>
+
+    <div class="folder-files">
+        <% folder.files.forEach(file => { %>
+            <div class="file">
+                <a href="<%= file.url %>" target="_blank"><%= file.name %></a>
+            </div>
+        <% }) %>
+        <div class="upload">
+            <form action="/files/upload" method="post">
+                <label for="file">Upload File</label>
+                <input type="file" name="file" id="file">
+                <button type="submit">submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</html>
