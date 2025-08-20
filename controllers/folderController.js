@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 const createPost =  async (req, res, next) => {
     try {
         const { foldername } = req.body
-        const userId = req.user.id
+        const userId = parseInt(req.user.id)
 
          await prisma.folder.create({
             data: {
@@ -46,15 +46,15 @@ const updateFolderGet = async(req, res) => {
     res.render('folders/edit.ejs', {folder: folder})
 }
 
-const updateFolderPost = async(req, res) => {
+const deleteFolder = async(req, res) => {
     const id = parseInt(req.params.id)
-    const folder = await prisma.folder.findUnique({
+    const folder = await prisma.folder.delete({
         where: { id }
     })
-    res.render('folders/edit.ejs', {folder: folder})
+    res.redirect('/folders')
 }
 
-const deleteFolder = async(req, res) => {
+const updateFolderPost = async(req, res) => {
     const id = parseInt(req.params.id)
     const editedName = req.body.foldername;
     console.log(editedName)
