@@ -1,80 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+
 </head>
+
 <style>
   .folder-details {
-    background-color: #f9f9f9;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    max-width: 600px;
+    max-width: 800px;
     margin: 2rem auto;
-}
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    font-family: system-ui, sans-serif;
+    border: 2px dashed #ccc;
+  }
 
-.folder-details h2 {
+  .folder-details h2 {
+    font-size: 1.8rem;
     margin-bottom: 1rem;
-}
+    color: #2c3e50;
+    text-align: center;
+  }
 
-.folder-actions {
-    margin-bottom: 1.5rem;
-}
+  .folder-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
 
-.folder-actions a {
+  .folder-actions a {
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
     text-decoration: none;
-    margin-right: 1rem;
-    color: #007bff;
     font-weight: 500;
-    transition: color 0.2s;
-}
+    transition: background 0.2s ease, color 0.2s ease;
+  }
 
-.folder-actions a:hover {
-    color: #0056b3;
-}
+  .folder-actions a:first-child {
+    background: #3498db;
+    color: #fff;
+  }
 
-.folder-files .file {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #d9d1d1;
-}
+  .folder-actions a:first-child:hover {
+    background: #2980b9;
+  }
 
-.folder-files .file a {
+  .folder-actions a:last-child {
+    background: #e74c3c;
+    color: #fff;
+  }
+
+  .folder-actions a:last-child:hover {
+    background: #c0392b;
+  }
+
+  /* .folder-files {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  } */
+
+  .file {
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #eee;
+    transition: transform 0.2s ease;
+    display: flex;
+    /* min-width: 80%; */
+    /* gap: 2rem; */
+    justify-content: space-between;
+    margin: 10px auto;
+    flex-wrap: wrap;
+  }
+
+  .file:hover {
+    transform: translateY(-4px);
+    background: #f1faff;
+  }
+
+  .file a {
     text-decoration: none;
-    color: #333;
-    transition: color 0.2s;
-}
+    color: #34495e;
+    font-weight: 500;
+  }
 
-.folder-files .file a:hover {
-    color: #007bff;
-}
+  .upload {
+    grid-column: span 2;
+    background: #fdfdfd;
+    padding: 1.5rem;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    text-align: center;
+    transition: border-color 0.3s ease;
+  }
 
+  .upload:hover {
+    border-color: #3498db;
+  }
 
+  .upload label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+  }
+
+  .upload input[type="file"] {
+    margin: 0.5rem 0;
+  }
+
+  .upload button {
+    background: #3498db;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s ease;
+  }
+
+  .upload button:hover {
+    background: #2980b9;
+  }
+
+  img {
+    max-width: 40%;
+    margin-top: 5px;
+  }
+
+  .fa-trash:hover {
+    color: red;
+  }
+
+  .fa-download {
+    font-size: 1.2rem;
+  }
+
+  .fa-download:hover {
+    color: hsl(120, 70%, 55%);
+  }
 </style>
+
 <body>
-    <%- include('../partials/navbar.ejs')%>
-<div class="folder-details">
-    <h2><%= folder.name %></h2>
-    <div class="folder-actions">
+  <%- include('../partials/navbar.ejs')%>
+    <div class="folder-details">
+      <h2> <span><i class="fa-solid fa-folder"></i></span>
+        <%= folder.name %>
+      </h2>
+      <div class="folder-actions">
         <a href="/folders/edit/<%= folder.id %>">Edit</a>
         <a href="/folders/delete/<%= folder.id %>">Delete</a>
-    </div>
+      </div>
 
-    <div class="folder-files">
-        <% folder.files.forEach(file => { %>
-            <div class="file">
-                <a href="<%= file.url %>" target="_blank"><%= file.name %></a>
-            </div>
-        <% }) %>
-        <div class="upload">
-            <form action="/files/upload" method="post">
+      <div class="folder-files">
+        <% files.forEach(file=> { %>
+          <div class="file">
+            <% if (file.filename.match(/\.(jpg|jpeg|png|gif)$/i)) { %>
+              <!-- <img src="<%= file.path %>" alt="<%= file.filename %>" /> -->
+              <% } %>
+                <a href="<%= file.path %>" target="_blank">
+                  <%= file.filename %>
+                </a>
+                <h5>
+                  <%=file.sizeFormatted %>
+                </h5>
+                <a href="/files/delete/<%= file.id%>"><i class="fa-solid fa-trash"></i></a>
+                <a href="/files/download/<%= file.id%>" download><i class="fa-solid fa-download"></i></a>
+          </div>
+          <% }) %>
+            <div class="upload">
+              <form action="/files/upload" method="post" enctype="multipart/form-data">
                 <label for="file">Upload File</label>
+                <input type="hidden" name="folderId" value="<%= folder.id%>" />
                 <input type="file" name="file" id="file">
                 <button type="submit">submit</button>
-            </form>
-        </div>
+              </form>
+            </div>
+      </div>
     </div>
-</div>
 
 </html>

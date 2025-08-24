@@ -1,7 +1,4 @@
-const uploadFile = (req, res) => {
-    console.log(req.file, req.body)
-    res.redirect('/folders')
-}
+// const uploadFile = 
 
 
-export default { uploadFile}
+// export default { uploadFile}

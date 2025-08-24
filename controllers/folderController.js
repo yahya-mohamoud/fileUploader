@@ -1,52 +1,59 @@
 import { PrismaClient } from "@prisma/client";
+import { filesize } from "filesize";
 const prisma = new PrismaClient()
 
-const createPost =  async (req, res, next) => {
+const createPost = async (req, res, next) => {
     try {
         const { foldername } = req.body
         const userId = parseInt(req.user.id)
 
-         await prisma.folder.create({
+        await prisma.folder.create({
             data: {
                 name: foldername,
-               user: {
-                connect: { id: userId}
-               }
+                user: {
+                    connect: { id: userId }
+                }
             }
         })
         res.redirect('/folders')
-        
+
     } catch (error) {
         next(error)
     }
 }
 
-const getAllFolders =  async (req, res, next) => {
-      const folders = await prisma.folder.findMany()
-         res.render('folders/all', {folders: folders})
+const getAllFolders = async (req, res, next) => {
+    const folders = await prisma.folder.findMany()
+    res.render('folders/all', { folders: folders })
 }
 
-const getOneFolder =  async (req, res) => {
+const getOneFolder = async (req, res) => {
     const id = parseInt(req.params.id)
+
     const folder = await prisma.folder.findUnique({
         where: { id },
         include: {
             files: true
         }
     })
-    res.render('folders/folderDetails', {folder: folder})
+    const files = await prisma.file.findMany()
+    const formattedFiles = files.map(file => ({
+        ...file,
+        sizeFormatted: filesize(file.size)
+    }))
+    res.render('folders/folderDetails', { folder: folder, files: formattedFiles })
 
 }
 
-const updateFolderGet = async(req, res) => {
+const updateFolderGet = async (req, res) => {
     const id = parseInt(req.params.id)
     const folder = await prisma.folder.findUnique({
         where: { id }
     })
-    res.render('folders/edit.ejs', {folder: folder})
+    res.render('folders/edit.ejs', { folder: folder })
 }
 
-const deleteFolder = async(req, res) => {
+const deleteFolder = async (req, res) => {
     const id = parseInt(req.params.id)
     const folder = await prisma.folder.delete({
         where: { id }
@@ -54,17 +61,15 @@ const deleteFolder = async(req, res) => {
     res.redirect('/folders')
 }
 
-const updateFolderPost = async(req, res) => {
+const updateFolderPost = async (req, res) => {
     const id = parseInt(req.params.id)
     const editedName = req.body.foldername;
-    console.log(editedName)
     const editFolder = await prisma.folder.update({
-        where: {id},
+        where: { id },
         data: {
             name: editedName
         }
     })
-    console.log(editFolder)
     res.redirect('/folders')
 }
-export default {createPost, getAllFolders, getOneFolder, updateFolderPost,  updateFolderGet, deleteFolder}
+export default { createPost, getAllFolders, getOneFolder, updateFolderPost, updateFolderGet, deleteFolder }

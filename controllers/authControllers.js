@@ -27,7 +27,6 @@ const loginPost = (req, res, next) => {
             }
             req.logIn(user, (err) => {
                 if (err) return next(err)
-                    console.log('you are in')
                 return res.redirect('/')
             })
         })(req, res, next)

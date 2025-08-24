@@ -20,9 +20,9 @@ app.use(express.urlencoded({extended: false}))
 
 app.use(session({
      cookie: {
-     maxAge: 2 * 60 * 1000 // ms
+     maxAge: 60 * 60 * 1000 // ms
     },
-    secret: 'a santa at nasa',
+    secret: 'mesa verde',
     resave: false,
     saveUninitialized: false,
     store: new PrismaSessionStore(
