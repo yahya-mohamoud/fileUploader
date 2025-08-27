@@ -7,8 +7,9 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <script src="/script.js"></script>
     <style>
-         body {
+        body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
@@ -16,12 +17,13 @@
             color: #fff;
             min-height: 100vh;
         }
+
         .folders-container {
             max-width: 600px;
             margin: 2rem auto;
         }
 
-        body > h1 {
+        .header {
             text-align: center;
             margin-top: 1rem;
         }
@@ -107,6 +109,7 @@
         .form button:hover {
             background: #45a049;
         }
+
         .closeBtn {
             position: absolute;
             top: 15px;
@@ -135,47 +138,55 @@
 
 <body>
     <%- include('../partials/navbar.ejs' )%>
-    <h1>All Folders</h1>
+        <div class="container">
 
-    <div class="folders-container">
-        <% folders.forEach(folder=> { %>
-            <div class="folder" onclick="window.location.href='/folders/details/<%= folder.id %>'">
-                <h2>
-                    <%= folder.name %>
-                </h2>
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-            </div>
-            <% }) %>
+            <%- include('../partials/loading.ejs' )%>
+                <div class="content-hidden" id="content">
 
-                <!-- Add Folder Button -->
-                <div class="folder add-folder">
-                    <div class="addBtn"><i class="fa-solid fa-plus"></i></div>
+                    <h1 class="header">All Folders</h1>
+
+                    <div class="folders-container">
+                        <% folders.forEach(folder=> { %>
+                            <div class="folder" onclick="window.location.href='/folders/details/<%= folder.id %>'">
+                                <h2>
+                                    <%= folder.name %>
+                                </h2>
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </div>
+                            <% }) %>
+
+                                <!-- Add Folder Button -->
+                                <div class="folder add-folder">
+                                    <div class="addBtn"><i class="fa-solid fa-plus"></i></div>
+                                </div>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="form">
+                        <div class="closeBtn"><i class="fa-solid fa-xmark"></i></div>
+                        <form action="/folders/create" method="POST">
+                            <label for="foldername">Create a Folder</label>
+                            <input type="text" name="foldername" id="foldername" placeholder="Folder name">
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
                 </div>
-    </div>
+        </div>
 
-    <!-- Modal -->
-    <div class="form">
-        <div class="closeBtn"><i class="fa-solid fa-xmark"></i></div>
-        <form action="/folders/create" method="POST">
-            <label for="foldername">Create a Folder</label>
-            <input type="text" name="foldername" id="foldername" placeholder="Folder name">
-            <button type="submit">Submit</button>
-        </form>
-    </div>
 
-    <script>
-        const addBtn = document.querySelector('.addBtn');
-        const form = document.querySelector('.form');
-        const closeBtn = document.querySelector('.closeBtn');
+        <script>
+            const addBtn = document.querySelector('.addBtn');
+            const form = document.querySelector('.form');
+            const closeBtn = document.querySelector('.closeBtn');
 
-        addBtn.addEventListener('click', () => {
-            form.style.display = 'flex';
-        });
+            addBtn.addEventListener('click', () => {
+                form.style.display = 'flex';
+            });
 
-        closeBtn.addEventListener('click', () => {
-            form.style.display = 'none';
-        });
-    </script>
+            closeBtn.addEventListener('click', () => {
+                form.style.display = 'none';
+            });
+        </script>
 </body>
 
 </html>

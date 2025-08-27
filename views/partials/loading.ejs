@@ -1,0 +1,76 @@
+
+    <style>
+      /* Loader wrapper (sits below navbar, not covering whole screen) */
+.loading-overlay {
+  width: 100%;
+  height: 300px; /* you can adjust to smaller or larger section */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #2b5876, #4e4376);
+  color: #fff;
+  font-family: Arial, sans-serif;
+  position: relative; /* stays in normal page flow */
+  z-index: 1; /* lower than navbar, higher than content */
+}
+
+/* Spinner design */
+.spinner {
+  width: 70px;
+  height: 70px;
+  border: 6px solid rgba(255, 255, 255, 0.2);
+  border-top: 6px solid #00d2ff;
+  border-right: 6px solid #3a7bd5;
+  border-radius: 50%;
+  animation: spin 1s ease-in-out infinite, glow 1.5s ease-in-out infinite alternate;
+}
+
+/* Spinning + glowing */
+@keyframes spin {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(1.05); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 10px rgba(0, 210, 255, 0.6); }
+  to   { box-shadow: 0 0 25px rgba(58, 123, 213, 0.9); }
+}
+
+/* Loading text */
+.loading-overlay h2 {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: pulse 1.5s infinite;
+}
+
+/* Text pulsing */
+@keyframes pulse {
+  0%   { opacity: 0.6; transform: scale(0.95); }
+  50%  { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.6; transform: scale(0.95); }
+}
+
+/* Hide real content until loader is gone */
+.content-hidden {
+  display: none;
+}
+
+  h2 {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: pulse 1.5s linear;
+  }
+
+    </style>
+
+   <div id="loading-overlay" class="loading-overlay">
+  <div class="spinner"></div>
+  <h2>Loading...</h2>
+</div>
+

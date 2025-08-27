@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+  <script src="/script.js" defer></script>
 
 </head>
 
@@ -166,48 +167,54 @@
 
 <body>
   <%- include('../partials/navbar.ejs')%>
-    <div class="folder-details">
-      <h2> <span><i class="fa-solid fa-folder"></i></span>
-        <%= folder.name %>
-      </h2>
-      <div class="folder-actions">
-        <a href="/folders/edit/<%= folder.id %>">Edit</a>
-        <a href="/folders/delete/<%= folder.id %>">Delete</a>
-      </div>
+    <div class="container">
+      <%- include('../partials/loading.ejs')%>
+        <div class="content-hidden" id="content">
 
-      <div class="folder-files">
-        <% files.forEach(file=> { %>
-          <div class="file">
-            <!-- <% if (file.filename.match(/\.(jpg|jpeg|png|gif)$/i)) { %>
+          <div class="folder-details">
+            <h2> <span><i class="fa-solid fa-folder"></i></span>
+              <%= folder.name %>
+            </h2>
+            <div class="folder-actions">
+              <a href="/folders/edit/<%= folder.id %>">Edit</a>
+              <a href="/folders/delete/<%= folder.id %>">Delete</a>
+            </div>
+
+            <div class="folder-files">
+              <% files.forEach(file=> { %>
+                <div class="file">
+                  <!-- <% if (file.filename.match(/\.(jpg|jpeg|png|gif)$/i)) { %>
                <img src="<%= file.path %>" alt="<%= file.filename %>" />
               <% } %> -->
-            <h4>
-              <%= file.filename%>
-            </h4>
+                  <h4>
+                    <%= file.filename%>
+                  </h4>
 
-            <h5>
-              <%=file.sizeFormatted %>
-            </h5>
-            <div class="tools">
-              <a href="/files/delete/<%= file.id%>"><i class="fa-solid fa-trash"></i></a>
-              <a href="/files/download/<%= file.id%>"><i class="fa-solid fa-download"></i></a>
-              <a href="/files/views/<%= file.filename %>" target="_blank">
-                <% if (file.filename.match(/\.(jpg|jpeg|png|gif)$/i)) { %>
-                  <i class="fa-solid fa-eye"></i>
-              </a>
-              <% } %>
+                  <h5>
+                    <%=file.sizeFormatted %>
+                  </h5>
+                  <div class="tools">
+                    <a href="/files/delete/<%= file.id%>"><i class="fa-solid fa-trash"></i></a>
+                    <a href="/files/download/<%= file.id%>"><i class="fa-solid fa-download"></i></a>
+                    <a href="/files/views/<%= file.filename %>" target="_blank">
+                      <% if (file.filename.match(/\.(jpg|jpeg|png|gif)$/i)) { %>
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                    <% } %>
+                  </div>
+                </div>
+                <% }) %>
+                  <div class="upload">
+                    <form action="/files/upload" method="post" enctype="multipart/form-data">
+                      <label for="file">Upload File</label>
+                      <input type="hidden" name="folderId" value="<%= folder.id%>" />
+                      <input type="file" name="file" id="file">
+                      <button type="submit">submit</button>
+                    </form>
+                  </div>
             </div>
           </div>
-          <% }) %>
-            <div class="upload">
-              <form action="/files/upload" method="post" enctype="multipart/form-data">
-                <label for="file">Upload File</label>
-                <input type="hidden" name="folderId" value="<%= folder.id%>" />
-                <input type="file" name="file" id="file">
-                <button type="submit">submit</button>
-              </form>
-            </div>
-      </div>
+        </div>
     </div>
 
 </html>

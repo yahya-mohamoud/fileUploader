@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
+  <script src="/script.js" defer></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -161,6 +162,9 @@
 </head>
 
 <body>
+  <!-- <%- include('../partials/loading.ejs')%> -->
+  <div class="content-hidden" id="content">
+
      <div class="alert-container">
 
     <% if (error && error.length> 0) { %>
@@ -188,6 +192,8 @@
             </form>
 
           </div>
+  </div>
+
 </body>
 
 </html>
