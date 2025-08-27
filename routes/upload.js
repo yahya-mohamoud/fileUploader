@@ -3,7 +3,7 @@ import multer from "multer";
 import { supabase } from "../supabase.js";
 import { PrismaClient } from "@prisma/client";
 // import fileControllers from "../controllers/fileControllers.js";
-
+import path from 'path'
 const prisma = new PrismaClient()
 
 const fileRoute = Router()
@@ -16,7 +16,7 @@ fileRoute.post('/upload', upload.single('file'), async (req, res) => {
 
         if (!file) return res.status(400).json({ error: "No file uploaded" });
 
-        const filePath = `${Date.now()}-${file.originalname}`;
+        const filePath = `${file.originalname}`;
         const { data, error } = await supabase.storage
             .from('upload')
             .upload(filePath, file.buffer, {
@@ -24,7 +24,10 @@ fileRoute.post('/upload', upload.single('file'), async (req, res) => {
                 upsert: false,
             })
 
-        if (error) throw error
+        if (error) {
+            req.flash('error', error)
+            throw error
+        }
 
         const { data: publicUrlData } = supabase.storage
             .from('upload')
@@ -41,12 +44,10 @@ fileRoute.post('/upload', upload.single('file'), async (req, res) => {
             }
         })
 
-
-
         res.redirect(`/folders/details/${folderId}`)
 
     } catch (error) {
-        res.status(500).json({ error: error.message })
+        req.flash(error, 'failed to upload the file')
     }
 })
 
@@ -55,34 +56,60 @@ fileRoute.get('/download/:id', async (req, res) => {
     const file = await prisma.file.findUnique({
         where: { id }
     })
+
+
+    if (!file) {
+        return req.flash('file not found')
+    }
+
     const { data, error } = await supabase.storage
         .from('upload')
-        .download(file.name)
+        .download(file.filename)
 
-    res.setHeader('Content-Disposition', `attachment; filename="${path.basename(file.name)}"`);
-    res.setHeader('Content-Type', data.type);
+    const buffer = Buffer.from(await data.arrayBuffer())
 
-    data.arrayBuffer().then(buffer => {
-        res.send(Buffer.from(buffer));
-    });
+    res.setHeader(
+        'Content-Disposition',
+        `attachment; filename='${path.basename(file.filename)}'`
+    )
+
+    res.setHeader(
+        'Content-Type',
+        'application/octet-stream'
+    )
+
+    res.send(buffer)
 })
 
-fileRoute.get('/delete/:id', async(req, res) => {
+fileRoute.get('/delete/:id', async (req, res) => {
     const id = parseInt(req.params.id)
     const file = await prisma.file.findUnique({
-        where: {id}
+        where: { id }
     })
 
-    const {error: storageError} = await supabase.storage
+    console.log(file.path)
+
+    const { error: storageError } = await supabase.storage
         .from('upload')
-        .remove([file.path])
+        .remove([file.filename])
 
     await prisma.file.delete({
-        where: {id}
+        where: { id }
     })
 
     res.redirect('/folders')
 
+})
+
+fileRoute.get('/views/:filename', async (req, res) => {
+    const filename = req.params.filename;
+    const {data, error} = await supabase
+        .storage
+        .from('upload')
+        .getPublicUrl(filename)
+
+            console.log(data.publicUrl)
+        return res.redirect(data.publicUrl)
 })
 
 export default fileRoute

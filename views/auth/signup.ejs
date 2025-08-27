@@ -14,6 +14,7 @@
       align-items: center;
       height: 100vh;
       margin: 0;
+      position: relative;
     }
 
     .container {
@@ -99,20 +100,111 @@
     .note a:hover {
       text-decoration: underline;
     }
+
+    .alert {
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin-bottom: .3rem;
+      color: #fff;
+      position: relative;
+      width: fit-content;
+      animation: slideIn 1.5s forwards, pause 3s 0.5s forwards, slideOut 0.5s 3.5s forwards;
+      opacity: 0;
+      position: relative;
+      top: 1rem;
+      left: 0.5rem;
+    }
+
+    .alert-danger {
+      background-color: #e74c3c;
+    }
+
+    .alert-success {
+      background-color: #2ecc71;
+    }
+
+    @keyframes slideIn {
+      0% {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+
+      60% {
+        transform: translateX(20%);
+        opacity: 1;
+      }
+
+      80% {
+        transform: translateX(-10%);
+      }
+
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes pause {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideOut {
+      0% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(-100%);
+      }
+    }
+
+    .alert-container {
+      position: fixed;
+      /* stays on top */
+      width: fit-content;
+      top: 1rem;
+      left: 2rem;
+      /* transform: translateX(-50%); */
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      /* space between messages */
+      z-index: 9999;
+    }
   </style>
 </head>
 
 <body>
+  <div class="alert-container">
+
+    <% if (error && error.length> 0) { %>
+      <%error.forEach((msg)=> {%>
+        <div class="alert alert-danger">
+          <%= msg%>
+        </div>
+        <%})%>
+          <% } %>
+
+            <% if (success && success.length> 0) { %>
+              <div class="alert alert-success">
+                <%= success[0] %>
+              </div>
+              <% } %>
+  </div>
   <div class="container">
     <form action="/auth/signup" method="post">
       <h2>Sign Up</h2>
 
-      <!-- <div class="row"> -->
-          <label for="firstname">First name</label>
-          <input type="text" name="firstname" id="firstname" placeholder="Jack" required>
-          <label for="lastname">Last name</label>
-          <input type="text" name="lastname" id="lastname" placeholder="Carr" required>
-      <!-- </div> -->
+      <label for="firstname">First name</label>
+      <input type="text" name="firstname" id="firstname" placeholder="Jack" required>
+      <label for="lastname">Last name</label>
+      <input type="text" name="lastname" id="lastname" placeholder="Carr" required>
 
       <label for="username">Username</label>
       <input type="text" name="username" id="username" placeholder="username" required>

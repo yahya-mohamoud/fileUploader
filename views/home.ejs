@@ -6,45 +6,204 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="/style.css">
+
     <style>
-      .home-container {
-    text-align: center;
-    margin-top: 100px;
-}
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #2b5876, #4e4376);
+            color: #fff;
+            min-height: 100vh;
+        }
 
-.home-links {
-    margin-top: 20px;
-}
+        .home-container {
+            max-width: 800px;
+            margin: 40px auto 50px auto;
+            text-align: center;
+            padding: 2rem 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
 
-.home-links .btn {
-    display: inline-block;
-    margin: 0 10px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 6px;
-    transition: background-color 0.2s;
-}
+        .home-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
 
-.home-links .btn:hover {
-    background-color: #0056b3;
-}
+        .user {
+            font-size: 3rem;
+            text-transform: capitalize;
+            font-weight: bold;
+            background: linear-gradient(90deg, #2ca5d1, #64d28e, #d87eb6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+            margin-top: 0.5rem;
+        }
 
+        .home-container p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .home-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 2rem;
+        }
+
+        .home-links .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #77c6fb;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .home-links .btn:hover {
+            background: #2593dc;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            color: #fff;
+            position: relative;
+            width: fit-content;
+            animation: slideIn 1.5s forwards, pause 3s 0.5s forwards, slideOut 0.5s 3.5s forwards;
+            opacity: 0;
+        }
+
+        .alert-success {
+            background-color: #2ecc71;
+        }
+
+        .alert-container {
+            position: fixed;
+            top: 1rem;
+            left: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 9999;
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+
+            60% {
+                transform: translateX(20%);
+                opacity: 1;
+            }
+
+            80% {
+                transform: translateX(-10%);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pause {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOut {
+            0% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .home-container {
+                margin: 50px 20px;
+                padding: 1.5rem 1rem;
+            }
+
+            .home-links .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .user {
+                font-size: 2.5rem;
+            }
+        }
     </style>
 </head>
 
 <body>
     <%- include('./partials/navbar.ejs') %>
 
-<div class="home-container">
-    <h1>Home Page</h1>
-    <div class="home-links">
-        <a href="/auth/signup" class="btn">Sign Up</a>
-        <a href="/auth/login" class="btn">Login</a>
-        <a href="/folders" class="btn">All Folders</a>
-    </div>
-</div>
+        <div class="alert-container">
+
+        </div>
+
+        <% if (success && success.length> 0) { %>
+            <% success.forEach(msg=> { %>
+                <div class="alert alert-success">
+                    <%= msg %>
+                </div>
+                <%})%>
+                    <% } %>
+
+                        <div class="home-container">
+                            <h1>Welcome to file uploader
+                                <%if(sessionData) {%>
+                                    <span class="user">
+                                        <%= sessionData.username%>
+                                    </span>
+                                    <%}%>
+                            </h1>
+                            <p>Our File Uploader is a simple and intuitive web application designed to help users manage
+                                their files efficiently. With just a few clicks, users can upload, view, and organize
+                                files in folders, making file management seamless and hassle-free. The platform supports
+                                multiple file types, ensuring all your important documents, images, and PDFs are easily
+                                accessible in one place.</p>
+                            <p>The application also emphasizes user experience, providing a clean and responsive
+                                interface that works on desktops and mobile devices alike. Users can quickly navigate
+                                through their files, preview documents online, and download them whenever needed. With
+                                secure session management and clear organization tools, our File Uploader makes file
+                                handling faster, safer, and more convenient.</p>
+                            <div class="home-links">
+                                <%if(!sessionData) {%>
+                                    <a href="/auth/signup" class="btn">Sign Up</a>
+                                    <a href="/auth/login" class="btn">Login</a>
+                                    <%}%>
+
+                                        <a href="/folders" class="btn">All Folders</a>
+                            </div>
+                        </div>
 
 </body>
 

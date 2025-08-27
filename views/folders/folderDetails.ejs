@@ -10,11 +10,20 @@
 </head>
 
 <style>
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #2b5876, #4e4376);
+    /* color: #fff; */
+    min-height: 100vh;
+  }
+
   .folder-details {
     max-width: 800px;
     margin: 2rem auto;
     padding: 2rem;
-    background: #ffffff;
+    background: rgba(0, 0, 0, 0.4);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     font-family: system-ui, sans-serif;
@@ -24,7 +33,7 @@
   .folder-details h2 {
     font-size: 1.8rem;
     margin-bottom: 1rem;
-    color: #2c3e50;
+    color: #ffffff;
     text-align: center;
   }
 
@@ -61,20 +70,15 @@
     background: #c0392b;
   }
 
-  /* .folder-files {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
-  } */
-
   .file {
-    background: #f9f9f9;
     padding: 1rem;
     border-radius: 8px;
     text-align: center;
     border: 1px solid #eee;
     transition: transform 0.2s ease;
     display: flex;
+    background-color: #5ed0ff;
+
     /* min-width: 80%; */
     /* gap: 2rem; */
     justify-content: space-between;
@@ -149,6 +153,15 @@
   .fa-download:hover {
     color: hsl(120, 70%, 55%);
   }
+
+  .fa-eye:hover {
+    color: rgb(69, 185, 223);
+  }
+
+  .tools {
+    display: flex;
+    gap: 1rem;
+  }
 </style>
 
 <body>
@@ -165,17 +178,25 @@
       <div class="folder-files">
         <% files.forEach(file=> { %>
           <div class="file">
-            <% if (file.filename.match(/\.(jpg|jpeg|png|gif)$/i)) { %>
-              <!-- <img src="<%= file.path %>" alt="<%= file.filename %>" /> -->
+            <!-- <% if (file.filename.match(/\.(jpg|jpeg|png|gif)$/i)) { %>
+               <img src="<%= file.path %>" alt="<%= file.filename %>" />
+              <% } %> -->
+            <h4>
+              <%= file.filename%>
+            </h4>
+
+            <h5>
+              <%=file.sizeFormatted %>
+            </h5>
+            <div class="tools">
+              <a href="/files/delete/<%= file.id%>"><i class="fa-solid fa-trash"></i></a>
+              <a href="/files/download/<%= file.id%>"><i class="fa-solid fa-download"></i></a>
+              <a href="/files/views/<%= file.filename %>" target="_blank">
+                <% if (file.filename.match(/\.(jpg|jpeg|png|gif)$/i)) { %>
+                  <i class="fa-solid fa-eye"></i>
+              </a>
               <% } %>
-                <a href="<%= file.path %>" target="_blank">
-                  <%= file.filename %>
-                </a>
-                <h5>
-                  <%=file.sizeFormatted %>
-                </h5>
-                <a href="/files/delete/<%= file.id%>"><i class="fa-solid fa-trash"></i></a>
-                <a href="/files/download/<%= file.id%>" download><i class="fa-solid fa-download"></i></a>
+            </div>
           </div>
           <% }) %>
             <div class="upload">

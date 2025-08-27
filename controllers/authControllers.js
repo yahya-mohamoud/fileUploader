@@ -3,78 +3,91 @@ import passport from "passport"
 import bcrypt from "bcryptjs"
 import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
+
+
 const loginGet = (req, res) => {
-     res.render('auth/login', { errors: [] })
+    const error = req.flash('error')
+    const success = req.flash('success')
+    res.render('auth/login', { error, success, errors: [] })
 }
 
-const loginValidate =  (req, res, next) => {
-        const errors = validationResult(req)
+const loginValidate = (req, res, next) => {
+    const errors = validationResult(req)
 
-        if (!errors.isEmpty()) {
-             return res.status(401).render('auth/login', { errors: errors.array() })
-        }
-        next()
+    if (!errors.isEmpty()) {
+        req.flash('error', 'validation error')
+        return res.redirect('/auth/login')
     }
+    next()
+}
 
 const loginPost = (req, res, next) => {
-        passport.authenticate('local', (err, user, info) => {
-            if (err) return next(err)
+    passport.authenticate('local', (err, user, info) => {
+        if (err) return next(err)
 
-            if (!user) {
-                return res.render('auth/login', {
-                    errors: [{ msg: "invalid username or password" }]
-                })
+        if (!user) {
+            return res.render('auth/login', { error: ["invalid credentials", "Invalid username or password"]})
+        }
+
+        req.logIn(user, (err) => {
+            if (err) return next(err)
+            req.session.data = {
+                id: user.id,
+                username: user.username,
             }
-            req.logIn(user, (err) => {
-                if (err) return next(err)
-                return res.redirect('/')
-            })
-        })(req, res, next)
-    }
+            req.flash('success', 'You logged in successfully')
+            return res.render('home', {success: ['You logged in successfully' || "Welcome back " + req.session.data.username], sessionData: req.session.data})
+        })
+    })(req, res, next)
+}
 
 const logoutGet = (req, res) => {
     req.session.destroy()
-    res.redirect('/auth/login')
+    res.redirect('/')
 }
 
 const signupGet = (req, res) => {
-    res.render('auth/signup', { errors: [] })
+    const error = req.flash('error')
+    const success = req.flash('success')
+
+    res.render('auth/signup', { error, success, errors: [] })
 }
 
-const signupvalidate =  async (req, res, next) => {
-        const errors = validationResult(req)
-        if (!errors.isEmpty()) {
-            console.log(errors)
-            return res.status(401).render('auth/signup', {
-                errors: errors.array(),
-            })
+const signupvalidate = async (req, res, next) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+    const errorMessages = errors.array().map(err => err.msg)
+
+    errorMessages.forEach(msg => req.flash('error', msg))
+
+    return res.render('auth/signup', { error: errorMessages })
+  }
+    next()
+}
+
+const signupPost = async (req, res, next) => {
+    const { firstname, lastname, username, password, confirm } = req.body;
+
+    try {
+        if (password !== confirm) {
+            req.flash('error', 'Passwords do not match, please try again')
+            return res.render('auth/signup', {error: ['passwords do not match', 'passwords must be the same']})
         }
-        next()
-}
-
-const signupPost = async (req, res, next) => {   
- const { firstname, lastname, username, password, confirm } = req.body;
-
-        try {
-            if (password !== confirm) {
-                return  res.status(400).render('auth/signup', {
-        errors: [{ msg: "Passwords do not match" }]
-    })
+        const hashed = await bcrypt.hash(password, 10)
+        const user = await prisma.user.create({
+            data: {
+                firstname: firstname,
+                lastname: lastname,
+                username: username,
+                password: hashed
             }
-            const hashed = await bcrypt.hash(password, 10)
-            const user = await prisma.user.create({
-                data: {
-                    firstname: firstname,
-                    lastname: lastname,
-                    username: username,
-                    password: hashed
-                }
-            })
-
-            res.redirect('/')
-        } catch (error) {
-            console.error(error)
-            next(error)
-        }
+        })
+        req.flash('success', 'Your registration was successfull')
+        return res.redirect('/auth/login')
+    } catch (error) {
+        console.error(error)
+        req.flash('error', 'something went wrong')
+        res.redirect('/auth/signup')
+    }
 }
-export default {loginGet, loginPost, loginValidate, logoutGet, signupGet, signupvalidate, signupPost}
+export default { loginGet, loginPost, loginValidate, logoutGet, signupGet, signupvalidate, signupPost }
