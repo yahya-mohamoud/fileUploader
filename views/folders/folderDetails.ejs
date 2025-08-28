@@ -208,7 +208,7 @@
                     <form action="/files/upload" method="post" enctype="multipart/form-data">
                       <label for="file">Upload File</label>
                       <input type="hidden" name="folderId" value="<%= folder.id%>" />
-                      <input type="file" name="file" id="file">
+                      <input type="file" name="file" id="file" required>
                       <button type="submit">submit</button>
                     </form>
                   </div>

@@ -4,16 +4,15 @@ import session from 'express-session'
 import dotenv from 'dotenv'
 import auth from './routes/auth.js'
 import passportConfig from './utils/passportConfig.js'
-import { PrismaClient } from '@prisma/client'
 import { PrismaSessionStore } from '@quixo3/prisma-session-store'
 import fileRoute from './routes/upload.js'
 import folderRoute from './routes/folder.js'
 import { checkAuth } from './middlewares.js'
 import flash from 'connect-flash'
+import prisma from './prisma.js'
 
 dotenv.config()
 const app = express()
-const prisma = new PrismaClient()
 
 
 app.use(express.static('public'))

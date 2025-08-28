@@ -1,10 +1,7 @@
 import { validationResult } from "express-validator"
 import passport from "passport"
 import bcrypt from "bcryptjs"
-import { PrismaClient } from "@prisma/client"
-const prisma = new PrismaClient()
-
-
+import prisma from "../prisma.js"
 const loginGet = (req, res) => {
     const error = req.flash('error')
     const success = req.flash('success')
@@ -35,7 +32,7 @@ const loginPost = (req, res, next) => {
                 id: user.id,
                 username: user.username,
             }
-            req.flash('success', 'You logged in successfully')
+            req.flash('success', `Welcome back ${req.session.data.username}`)
             return res.render('home', {success: ['You logged in successfully' || "Welcome back " + req.session.data.username], sessionData: req.session.data})
         })
     })(req, res, next)

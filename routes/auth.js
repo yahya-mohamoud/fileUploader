@@ -5,7 +5,6 @@ import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
 import passport from "passport";
 import authControllers from "../controllers/authControllers.js";
-const prisma = new PrismaClient()
 const auth = Router()
 
 auth.get('/login', authControllers.loginGet)

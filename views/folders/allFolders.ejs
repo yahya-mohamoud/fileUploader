@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
-    <script src="/script.js"></script>
+    <script src="/script.js" defer></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -79,7 +79,7 @@
         }
 
         .form form {
-            background: #fff;
+            background: rgb(18 43 85 / 88%);
             padding: 2rem;
             border-radius: 12px;
             max-width: 400px;
@@ -90,6 +90,7 @@
             flex-direction: column;
             gap: 1rem;
             animation: fadeIn 0.3s ease;
+            border: 1px dashed white;
         }
 
         .form input,
@@ -141,36 +142,34 @@
         <div class="container">
 
             <%- include('../partials/loading.ejs' )%>
-                <div class="content-hidden" id="content">
+            <div class="content-hidden" id="content">
 
-                    <h1 class="header">All Folders</h1>
+            <h1 class="header">All Folders</h1>
 
-                    <div class="folders-container">
-                        <% folders.forEach(folder=> { %>
-                            <div class="folder" onclick="window.location.href='/folders/details/<%= folder.id %>'">
-                                <h2>
-                                    <%= folder.name %>
-                                </h2>
-                                <i class="fa-solid fa-ellipsis-vertical"></i>
-                            </div>
-                            <% }) %>
-
-                                <!-- Add Folder Button -->
-                                <div class="folder add-folder">
-                                    <div class="addBtn"><i class="fa-solid fa-plus"></i></div>
-                                </div>
+            <div class="folders-container">
+                <% folders.forEach(folder=> { %>
+                    <div class="folder" onclick="window.location.href='/folders/details/<%= folder.id %>'">
+                        <h2>
+                            <%= folder.name %>
+                        </h2>
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
                     </div>
+                    <% }) %>
 
-                    <!-- Modal -->
-                    <div class="form">
-                        <div class="closeBtn"><i class="fa-solid fa-xmark"></i></div>
-                        <form action="/folders/create" method="POST">
-                            <label for="foldername">Create a Folder</label>
-                            <input type="text" name="foldername" id="foldername" placeholder="Folder name">
-                            <button type="submit">Submit</button>
-                        </form>
-                    </div>
-                </div>
+                        <div class="folder add-folder">
+                            <div class="addBtn"><i class="fa-solid fa-plus"></i></div>
+                        </div>
+            </div>
+
+            <div class="form">
+                <div class="closeBtn"><i class="fa-solid fa-xmark"></i></div>
+                <form action="/folders/create" method="POST">
+                    <label for="foldername">Create a Folder</label>
+                    <input type="text" name="foldername" id="foldername" placeholder="Folder name" required>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+            </div>
         </div>
 
 

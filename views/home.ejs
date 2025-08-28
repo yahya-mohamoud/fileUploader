@@ -40,7 +40,6 @@
             background: linear-gradient(90deg, #2ca5d1, #64d28e, #d87eb6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            display: block;
             margin-top: 0.5rem;
         }
 
@@ -176,12 +175,15 @@
                     <% } %>
 
                         <div class="home-container">
-                            <h1>Welcome to file uploader
+                            <h1>
                                 <%if(sessionData) {%>
+                                     Welcome back
                                     <span class="user">
                                         <%= sessionData.username%>
                                     </span>
-                                    <%}%>
+                                    <%} else {%>
+                                        Welcome to file uploader
+                                        <%}%>
                             </h1>
                             <p>Our File Uploader is a simple and intuitive web application designed to help users manage
                                 their files efficiently. With just a few clicks, users can upload, view, and organize

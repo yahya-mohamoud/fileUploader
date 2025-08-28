@@ -1,6 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import { filesize } from "filesize";
-const prisma = new PrismaClient()
+import prisma from "../prisma.js";
 
 const createPost = async (req, res, next) => {
     try {
@@ -23,8 +22,11 @@ const createPost = async (req, res, next) => {
 }
 
 const getAllFolders = async (req, res, next) => {
-    const folders = await prisma.folder.findMany()
-    res.render('folders/all', { folders: folders })
+    const id = parseInt(req.session.data.id)
+    const folders = await prisma.folder.findMany({
+        where: {userId: id}
+    })
+    res.render('folders/allFolders', { folders: folders })
 }
 
 const getOneFolder = async (req, res) => {
@@ -36,7 +38,11 @@ const getOneFolder = async (req, res) => {
             files: true
         }
     })
-    const files = await prisma.file.findMany()
+    const files = await prisma.file.findMany({
+        where: {
+            folderId: id
+        }
+    })
     const formattedFiles = files.map(file => ({
         ...file,
         sizeFormatted: filesize(file.size)
