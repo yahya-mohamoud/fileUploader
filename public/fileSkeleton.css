@@ -1,0 +1,100 @@
+.skeleton {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    width: 80%;
+    height: .67rem;
+    animation: pulse .8s infinite linear alternate;
+    border-radius: .15rem;
+}
+
+.dots {
+    animation: fade .8s infinite linear alternate;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.dot {
+    width: .4rem;
+    height: .4rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 2px;
+}
+
+.skeleton-container .plusBtn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgb(163, 217, 232);
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+    margin: 1rem auto;
+    font-size: 2rem;
+    animation: pulse .8s infinite linear alternate;
+
+}
+
+.hidden {
+    display: none;
+}
+
+/* 
+||||||||||||||||||||||||| folderDetails skeleton ||||||||||||||||
+*/
+
+.head {
+    width: 40%;
+    margin: 0 auto;
+    height: 2rem;
+    border-radius: 12px;
+    animation: pulse .8s infinite linear alternate;
+}
+
+.btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.uploadSkeleton {
+    animation: pulse .8s infinite linear alternate;
+
+}
+
+.fileSkeleton {
+    animation: pulse .8s infinite linear alternate;
+    
+}
+
+.btn {
+    width: 70px;
+    height: 32px;
+    animation: pulse .8s infinite linear alternate;
+    border-radius: 10px;
+}
+
+@keyframes pulse {
+    0% {
+        background-color: hsl(200, 20%, 50%)
+    }
+
+    100% {
+        background-color: hsl(200, 20%, 95%)
+    }
+}
+@keyframes fade {
+    0% {
+        opacity: .3;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

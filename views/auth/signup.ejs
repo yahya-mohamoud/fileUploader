@@ -157,16 +157,56 @@
 
     .alert-container {
       position: fixed;
-      /* stays on top */
       width: fit-content;
       top: 1rem;
       left: 2rem;
-      /* transform: translateX(-50%); */
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      /* space between messages */
       z-index: 9999;
+    }
+
+      /* loading animation starts here */
+
+
+    #formLoading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin-top: 1rem;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid #ccc;
+      border-top: 3px solid #216abe;
+      border-radius: 50%;
+      margin-right: 10px;
+      animation: spin 1s linear infinite;
+    }
+
+    #formLoading.hidden {
+      display: none;
+    }
+
+    .hide {
+      display: none;
+    }
+
+    .title {
+      color: WHITE;
+      font-size: 2rem;
+    }
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
@@ -188,8 +228,8 @@
               </div>
               <% } %>
   </div>
-  <div class="container">
-    <form action="/auth/signup" method="post">
+  <div class="container" id="signupForm">
+    <form action="/auth/signup" method="post" id="form">
       <h2>Sign Up</h2>
 
       <label for="firstname">First name</label>
@@ -211,6 +251,22 @@
       <p class="note">Already have an account? <a href="/auth/login">Login</a></p>
     </form>
   </div>
+
+   <div class="hidden" id="formLoading">
+    <div class="spinner"></div>
+    <h3 class="title">Logging in...</h3>
+  </div>
+  <script>
+    const signupForm = document.querySelector('#signupForm')
+    const loading = document.querySelector('#formLoading')
+    const form = document.querySelector('#form')
+
+
+    form.addEventListener('submit', () => {
+      signupForm.classList.add('hide')
+      loading.classList.remove('hidden')
+    })
+  </script>
 </body>
 
 </html>

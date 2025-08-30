@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="/fileSkeleton.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
   <script src="/script.js" defer></script>
 
@@ -168,10 +169,21 @@
 <body>
   <%- include('../partials/navbar.ejs')%>
     <div class="container">
-      <%- include('../partials/loading.ejs')%>
-        <div class="content-hidden" id="content">
+      <!-- <%- include('../partials/loading.ejs')%> -->
+        <!-- <div class="content-hidden" id="content"> -->
 
           <div class="folder-details">
+            <div class="FileSkeleton bucket">
+              <div class="head"></div>
+              <div class="btns">
+                <div class="btn"></div>
+                <div class="btn"></div>
+              </div>
+              <div class="fileSkeleton file"></div>
+              <div class="uploaderSkeleton upload"></div>
+            </div>
+            <div class="hidden" id="content">
+
             <h2> <span><i class="fa-solid fa-folder"></i></span>
               <%= folder.name %>
             </h2>
@@ -180,7 +192,7 @@
               <a href="/folders/delete/<%= folder.id %>">Delete</a>
             </div>
 
-            <div class="folder-files">
+            <div class="folder-files hidden" id="content">
               <% files.forEach(file=> { %>
                 <div class="file">
                   <!-- <% if (file.filename.match(/\.(jpg|jpeg|png|gif)$/i)) { %>
@@ -214,7 +226,9 @@
                   </div>
             </div>
           </div>
-        </div>
+            </div>
+
+        <!-- </div> -->
     </div>
 
 </html>

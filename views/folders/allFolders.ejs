@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/fileSkeleton.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
     <script src="/script.js" defer></script>
     <style>
@@ -141,12 +142,40 @@
     <%- include('../partials/navbar.ejs' )%>
         <div class="container">
 
-            <%- include('../partials/loading.ejs' )%>
-            <div class="content-hidden" id="content">
+            <!-- <%- include('../partials/loading.ejs' )%> -->
+            
 
             <h1 class="header">All Folders</h1>
+                 <div class="folders-container">
 
-            <div class="folders-container">
+                 <div class="skeleton-container">
+                     <div class="folder bucket">
+                         <div class="skeleton title"></div>
+                         <div class="dots skeleton">
+                             <span class="dot"></span>
+                             <span class="dot"></span>
+                             <span class="dot"></span>
+                            </div>
+                        </div>
+                     <div class="folder bucket">
+                         <div class="skeleton title"></div>
+                         <div class="dots skeleton">
+                             <span class="dot"></span>
+                             <span class="dot"></span>
+                             <span class="dot"></span>
+                            </div>
+                        </div>
+                     <div class="folder bucket">
+                         <div class="skeleton title"></div>
+                         <div class="dots skeleton">
+                             <span class="dot"></span>
+                             <span class="dot"></span>
+                             <span class="dot"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="folders-container hidden" id="content">
                 <% folders.forEach(folder=> { %>
                     <div class="folder" onclick="window.location.href='/folders/details/<%= folder.id %>'">
                         <h2>
@@ -170,7 +199,6 @@
                 </form>
             </div>
             </div>
-        </div>
 
 
         <script>
