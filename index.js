@@ -24,7 +24,7 @@ app.use(session({
   cookie: {
     maxAge: 60 * 60 * 1000 // ms
   },
-  secret: 'mesa verde',
+  secret: process.env.Secret,
   resave: false,
   saveUninitialized: false,
   store: new PrismaSessionStore(

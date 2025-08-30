@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
   <title>Signup</title>
   <style>
     body {
@@ -166,7 +167,7 @@
       z-index: 9999;
     }
 
-      /* loading animation starts here */
+    /* loading animation starts here */
 
 
     #formLoading {
@@ -199,6 +200,7 @@
       color: WHITE;
       font-size: 2rem;
     }
+
     @keyframes spin {
       0% {
         transform: rotate(0deg);
@@ -207,6 +209,30 @@
       100% {
         transform: rotate(360deg);
       }
+    }
+
+
+    .password-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .password-container input {
+      flex: 1;
+      padding-right: 2.5rem;
+      /* space for the toggle button */
+    }
+
+    .password-container button {
+      position: absolute;
+      right: 0rem;
+      top: -0.4rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      color: #333;
     }
   </style>
 </head>
@@ -228,7 +254,7 @@
               </div>
               <% } %>
   </div>
-  <div class="container" id="signupForm">
+  <div class="container" id="loginForm">
     <form action="/auth/signup" method="post" id="form">
       <h2>Sign Up</h2>
 
@@ -241,10 +267,20 @@
       <input type="text" name="username" id="username" placeholder="username" required>
 
       <label for="password">Password</label>
-      <input type="password" name="password" id="password" placeholder="********" minlength="8" required>
-
+      <div class="password-container">
+        <input type="password" id="password" name="password" placeholder="********" required>
+        <button type="button" class="togglePassword">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+      </div>
       <label for="confirm">Confirm Password</label>
-      <input type="password" name="confirm" id="confirm" placeholder="********" minlength="8" required>
+      <div class="password-container">
+        <input type="password" id="confirmPassword" name="confirm" placeholder="********" required>
+        <button type="button" class="togglePassword">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+      </div>
+
 
       <button type="submit">Sign Up</button>
 
@@ -252,21 +288,38 @@
     </form>
   </div>
 
-   <div class="hidden" id="formLoading">
+  <div class="hidden" id="formLoading">
     <div class="spinner"></div>
     <h3 class="title">Logging in...</h3>
   </div>
-  <script>
-    const signupForm = document.querySelector('#signupForm')
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+   const loginForm = document.querySelector('#loginForm')
     const loading = document.querySelector('#formLoading')
     const form = document.querySelector('#form')
 
+    
+  form.addEventListener('submit', () => {
+    loginForm.classList.add('hide')
+    loading.classList.remove('hidden')
+  })
 
-    form.addEventListener('submit', () => {
-      signupForm.classList.add('hide')
-      loading.classList.remove('hidden')
+  const sigupPassword = document.querySelectorAll(".togglePassword")
+sigupPassword.forEach(btn => {
+    const input = btn.previousElementSibling;
+    const icon = btn.querySelector('i')
+
+    btn.addEventListener('click', () => {
+        const type = input.getAttribute('type') === 'password' ? "text" : "password";
+        input.setAttribute('type', type) 
+
+        icon.classList.toggle('fa-eye-slash')
     })
-  </script>
+})
+  })
+
+</script>
 </body>
 
 </html>

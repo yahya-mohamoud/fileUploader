@@ -8,13 +8,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const skeleton = document.querySelectorAll('.bucket')
   const fileContent = document.querySelectorAll('#content')
 
-    skeleton.forEach(el => {
-      el.style.display = "none"
-    })
-    content.classList.remove("hidden");
+  skeleton.forEach(el => {
+    el.style.display = "none"
+  })
+  content.classList.remove("hidden");
 
-    fileContent.forEach(elm => {
-      elm.classList.remove("hidden");
-    })
+  fileContent.forEach(elm => {
+    elm.classList.remove("hidden");
+  })
+
+
 
 });
