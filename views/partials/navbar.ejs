@@ -11,7 +11,11 @@
                 <h1 class="logo"><a href="/">File Uploader</a></h1>
                 <div class="lists">
                     <li><a href="/folders">All Folders</a></li>
-                    <li><a href="/auth/logout">Logout</a></li>
+                    <%if(sessionData) { %>
+                        <li><a href="/auth/logout">Logout</a></li>
+                    <%} else {%>
+                        <li><a href="/auth/login">Login</a></li>
+                    <%}%>
                 </div>
             </ul>
         </nav>

@@ -6,12 +6,12 @@
 .title {
     width: 80%;
     height: .67rem;
-    animation: pulse .8s infinite linear alternate;
+    animation: pulse 1s infinite linear alternate;
     border-radius: .15rem;
 }
 
 .dots {
-    animation: fade .8s infinite linear alternate;
+    animation: fade 1s infinite linear alternate;
     display: flex;
     flex-direction: column;
     gap: 3px;
@@ -35,7 +35,7 @@
     cursor: pointer;
     margin: 1rem auto;
     font-size: 2rem;
-    animation: pulse .8s infinite linear alternate;
+    animation: pulse 1s infinite linear alternate;
 
 }
 
@@ -52,7 +52,7 @@
     margin: 0 auto;
     height: 2rem;
     border-radius: 12px;
-    animation: pulse .8s infinite linear alternate;
+    animation: pulse 1s infinite linear alternate;
 }
 
 .btns {
@@ -63,20 +63,20 @@
     margin-top: 1rem;
 }
 
-.uploadSkeleton {
-    animation: pulse .8s infinite linear alternate;
+.uploaderSkeleton {
+    animation: pulse 1s infinite linear alternate;
 
 }
 
 .fileSkeleton {
-    animation: pulse .8s infinite linear alternate;
+    animation: pulse 1s infinite linear alternate;
     
 }
 
 .btn {
     width: 70px;
     height: 32px;
-    animation: pulse .8s infinite linear alternate;
+    animation: pulse 1s infinite linear alternate;
     border-radius: 10px;
 }
 

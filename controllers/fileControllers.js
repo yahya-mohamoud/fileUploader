@@ -1,4 +1,5 @@
  import prisma from "../prisma.js";
+ import { supabase } from "../supabase.js";
  
  const uploadPost = async (req, res) => {
     try {
